@@ -10,13 +10,15 @@ Below are the commands SwapBot looks for in the comments. All commands are case-
 ### Inventory
     @SwapBot inventory
     @SwapBot inv
-    @SwapBot list
 
 Finds your inventory in /r/WhiskyInventory and links it for you.
 
 ### Recent
     @SwapBot swaps
     @SwapBot trades
-    @SwapBot complete
+
+#### Add Swap to the Bot's Database
+    @SwapBot add
+    @SwapBot swap complete
 
 Lists up to 10 of the user's completed trades.
