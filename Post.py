@@ -1,5 +1,7 @@
+import praw
+
 class Post():
-    def __init__(post):
+    def __init__(self, post):
         self.post   = post
         self.author = post.author
         self.url    = post.permalink

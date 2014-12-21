@@ -1,4 +1,5 @@
 import sqlite3
+import logging
 
 class Swap():
     table = 'swaps'
@@ -84,7 +85,7 @@ class Inventory():
         cursor = db.cursor()
         try:
             cursor.execute(
-                'SELECT url FROM {} WHERE user = ? ORDER BY date DESC' 
+                'SELECT url FROM {} WHERE user = ?' 
                 .format(Inventory.table), (user,)
             )
         except:
@@ -101,6 +102,6 @@ class Inventory():
             user VARCHAR,
             url VARCHAR,
             PRIMARY KEY (id)
-        )'''.format(Swap.table))
+        )'''.format(Inventory.table))
         cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS inventory ON {}(user)'.format(Inventory.table))
         db.commit()

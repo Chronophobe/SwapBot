@@ -5,33 +5,38 @@ from Decorators import CountDecorator
 from threading import Timer
 from datetime import datetime
 import re
+import sqlite3
+import logging 
 
 class SwapBot(Bot):
     def __init__(self, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
         
         self.owner = 'FlockOnFire'
 
-        self.comment_triggers = {
-            'add':       (re.compile(r'{name} add'.format(name=name), re.I)
-                          self.addSwap),
-            'completed': (re.compile(r'{name} swap complete'.format(name=name), re.I)
-                          self.addSwap),
-            'inventory': (re.compile(r'{name} inv'.format(name=name), re.I),
-                          self.getInventory),
-            'swaps':     (re.compile(r'{name} (swaps|trades)'.format(name=name), re.I), 
-                          self.getSwaps),
-        }
-        self.submission_triggers =  {
-            'add':       (re.compile(r'{name} add'.format(name=name), re.I)
-                          self.addSwap),
-            'completed': (re.compile(r'{name} swap complete'.format(name=name), re.I)
-                          self.addSwap),
-            'inventory': (re.compile(r'{name} inv'.format(name=name), re.I),
-                          self.getInventory),
-            'swaps':     (re.compile(r'{name} (swaps|trades)'.format(name=name), re.I), 
-                          self.getSwaps),
-        }
+        name = '@SwapBot'
+        self.comment_triggers = [
+           #add
+           (re.compile(r'{name} (add|swap complete)'.format(name=name), re.I),
+            self.add_swap),
+           #inventory
+           (re.compile(r'{name} inv'.format(name=name), re.I),
+            self.get_inventory),
+           #list
+           (re.compile(r'{name} (swaps|trades)'.format(name=name), re.I), 
+            self.get_swaps),
+        ]
+        self.submission_triggers =  [
+            #add
+            (re.compile(r'{name} (add|swap complete)'.format(name=name), re.I),
+             self.add_swap),
+            #inventory
+            (re.compile(r'{name} inv'.format(name=name), re.I),
+             self.get_inventory),
+            #list
+            (re.compile(r'{name} (swaps|trades)'.format(name=name), re.I), 
+             self.get_swaps),
+        ]
         self.message_triggers = {}
 
         now = datetime.now()
@@ -48,10 +53,11 @@ class SwapBot(Bot):
         logging.debug('checking latest comments on {0}'.format(subreddit))
         comments = self.reddit.get_comments(subreddit)
         for comment in comments:
-            if not Comment.is_parsed(comment.id, self.db)
+            if not Comment.is_parsed(comment.id, self.db):
                 post = Post(comment)
                 for regex, process in self.comment_triggers:
-                    if(regex.search(post.text)): process(post)
+                    if(regex.search(post.text)): process(self, post)
+                self.reply(post)
                 Comment.add(comment.id, self.db)
 
     # check submissions for triggers
@@ -62,7 +68,8 @@ class SwapBot(Bot):
             if not Submission.is_parsed(submission.id, self.db):
                 post = Post(submission)
                 for regex, process in self.submission_triggers:
-                    if regex.search(post.text): process(post)
+                    if regex.search(post.text): process(self, post)
+                self.reply(post)
                 Submission.add(submission.id, self.db)
 
     # check messages for triggers
@@ -82,11 +89,11 @@ class SwapBot(Bot):
 
     @CountDecorator
     def get_inventory(self, post):
-        url = Inventory.get(post.author)
+        url = Inventory.get(str(post.author), self.db)
         if not url:
             logging.debug('get_inv: no inv in db')
-            new_url = self.get_inventory_link(post.author)
-        if not new_url:
+            url = self.get_inventory_link(post.author)
+        if not url:
             text = "No inventory found. :("
         else:
             text = '[{user}\'s Inventory]({permalink})'.format(user=str(post.author), permalink=url)
@@ -94,15 +101,16 @@ class SwapBot(Bot):
 
     @CountDecorator
     def get_swaps(self, post):
-        swaps = Swap.get(post.author)
+        swaps = Swap.get(str(post.author), self.db)
         if swaps:
-            self.build_reply(len(swaps))
+            self.build_reply(len(swaps) + ' swaps')
         else:
             logging.debug('get_swap: no swaps')
 
     @CountDecorator
     def add_swap(self, post):
         logging.debug('add_swap')
+        self.build_reply('Dummy added this submission to swap db')
 
     def get_inventory_link(self, user):
         logging.info('Getting link to {}\'s inventory'.format(str(user)))
@@ -114,6 +122,7 @@ class SwapBot(Bot):
 
 if __name__ == "__main__":
     with sqlite3.connect('bot.db') as db:
-        create_review_table(db)
+        Swap.createTable(db)
+        Inventory.createTable(db)
         bot = SwapBot(name='SwapBot by /u/FlockOnFire and /u/DustlessWalnut', log_file='review.log', from_file='login.cred', database=db)
         bot.run()

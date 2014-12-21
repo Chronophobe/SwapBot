@@ -5,7 +5,7 @@ class Bot:
     def __init__(self, name, log_file, username = None, password = None, from_file = None, database = None):
         logging.basicConfig(
             filename=log_file,
-            level=logging.INFO,
+            level=logging.DEBUG,
             format = '{asctime} | {levelname:^8} | {message}',
             style='{'
         )
@@ -22,6 +22,11 @@ class Bot:
             self.reddit = self.login(from_file = from_file)
         else:
             self.reddit = self.login(username, password)
+
+        self.refresh_rate = 10
+        self.refresh_cap  = 120
+        self.sub_from_subscriptions = False
+        self.subreddits = ['FlockBots']
         
         init_msg = """
 Starting {0}...
@@ -66,16 +71,17 @@ Starting {0}...
         pass
 
     def build_reply(self, text):
-        if self.reply_text = None:
+        if self.reply_text is None:
             self.reply_text = text
         else:
             self.reply_text += '\n\n'
             self.reply_text += text
 
     def reply(self, post):
-        # Bot.handle_ratelimit(post.reply, self.reply)
-        logging.debug(self.reply_text)
-        self.reply_text = None
+        if self.reply_text:
+            Bot.handle_ratelimit(post.reply, self.reply_text)
+            logging.debug(self.reply_text)
+            self.reply_text = None
 
     def loop(self):
         try:
