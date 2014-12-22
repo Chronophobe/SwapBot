@@ -154,8 +154,9 @@ class SwapBot(Bot):
         posts = user.get_submitted(limit=None, sort = 'new')
         for post in posts:
             post = Post(post)
-            if Swap.find(post.id, self.db):
-                print('Found: ', post.id)
+            exist = Swap.find(post.id, self.db):
+            if exist:
+                print(exist)
                 break
             print(post.title.lower())
             if any(word in self.keywords for word in post.title.lower().split()):
