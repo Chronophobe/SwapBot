@@ -150,7 +150,7 @@ class SwapBot(Bot):
 
     def get_user_swaps(self, user):
         logging.info('Adding {}\'s swaps to the database.'.format(str(user)))
-        posts = redditor.get_submitted(limit=None, sort = 'new')
+        posts = user.get_submitted(limit=None, sort = 'new')
         for post in posts:
             post = Post(post)
             if Swap.find(post.id, self.db):
