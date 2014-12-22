@@ -157,8 +157,7 @@ class SwapBot(Bot):
                 break
             if any(word in self.keywords for word in post.title.lower().split()):
                 Swap.add(
-                    subm
-ission_id = post.id,
+                    submission_id = post.id,
                     title = bytes(post.title, 'utf-8'),
                     user = str(post.author).lower(),
                     url = post.url,
