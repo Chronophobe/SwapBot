@@ -101,16 +101,43 @@ class SwapBot(Bot):
 
     @CountDecorator
     def get_swaps(self, post):
+        # Add new swaps to database first
+        self.get_user_swaps(post.author)
+
+        # Then get swaps from database
         swaps = Swap.get(str(post.author), self.db)
         if swaps:
-            self.build_reply(len(swaps) + ' swaps')
+            i = 0
+            msg = '{}\'s latest swaps:\n\n'.format(post.author)
+            for title, url in swaps:
+                if i > 9:
+                    break
+                msg += '* [{}]({})'.format(title, url)
+                i++
+            self.build_reply(msg)
         else:
-            logging.debug('get_swap: no swaps')
+            self.build_reply('{}\'s has no completed swaps yet.'.format(post.author))
 
     @CountDecorator
     def add_swap(self, post):
-        logging.debug('add_swap')
-        self.build_reply('Dummy added this submission to swap db')
+        if isinstance(post.original, praw.objects.Submission):
+            sub = post
+        else:
+            sub = post.original.submission
+        if post.author == sub.author:
+            Swap.add(
+                submission_id = sub.id,
+                title = bytes(sub.title, 'utf-8'),
+                user = str(sub.author).lower(),
+                url = sub.url,
+                date = sub.date,
+                db = self.db
+            )
+            logging.info('Manually added Swap ({})'.format(sub.id))
+            msg = 'Swap successfully archived!'
+        else:
+            msg  = 'Hey buddy, you can\'t archive other people their swaps.'
+        self.build_reply(msg)
 
     def get_inventory_link(self, user):
         logging.info('Getting link to {}\'s inventory'.format(str(user)))
@@ -119,6 +146,24 @@ class SwapBot(Bot):
             if post.subreddit.display_name.lower() == 'whiskyinventory':
                 return post.permalink
         return None
+
+    def get_user_swaps(self, user):
+        logging.info('Adding {}\'s swaps to the database.'.format(str(user)))
+        posts = redditor.get_submitted(limit=None, sort = 'new')
+        for post in posts:
+            post = Post(post)
+            if Swap.find(post.id, self.db):
+                break
+            if any(word in self.keywords for word in post.title.lower().split()):
+                Swap.add(
+                    submission_id = post.id,
+                    title = bytes(post.title, 'utf-8')
+                    user = str(post.author).lower()
+                    url = post.url,
+                    date = post.date
+                    db = self.db
+                )    
+                logging.debug('Added Swap ({}) to database'.format(post.id))        
 
 if __name__ == "__main__":
     with sqlite3.connect('bot.db') as db:
