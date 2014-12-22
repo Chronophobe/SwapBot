@@ -156,6 +156,7 @@ class SwapBot(Bot):
             post = Post(post)
             if Swap.find(post.id, self.db):
                 break
+            print(post.title.lower())
             if any(word in self.keywords for word in post.title.lower().split()):
                 Swap.add(
                     submission_id = post.id,
