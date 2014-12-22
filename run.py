@@ -154,7 +154,7 @@ class SwapBot(Bot):
         posts = user.get_submitted(limit=None, sort = 'new')
         for post in posts:
             post = Post(post)
-            exist = Swap.find(post.id, self.db):
+            exist = Swap.find(post.id, self.db)
             if exist:
                 print(exist)
                 break
