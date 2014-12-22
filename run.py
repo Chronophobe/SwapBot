@@ -174,5 +174,5 @@ if __name__ == "__main__":
     with sqlite3.connect('bot.db') as db:
         Swap.createTable(db)
         Inventory.createTable(db)
-        bot = SwapBot(name='SwapBot by /u/FlockOnFire and /u/DustlessWalnut', log_file='review.log', from_file='login.cred', database=db)
+        bot = SwapBot(name='SwapBot by /u/FlockOnFire and /u/DustlessWalnut', log_file='swap.log', from_file='login.cred', database=db)
         bot.run()
