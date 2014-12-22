@@ -39,7 +39,7 @@ class Swap():
         try:
             cursor.execute(
                 'SELECT title, url FROM {} WHERE user = ? ORDER BY date DESC' 
-                .format(Swap.table), (user,)
+                .format(Swap.table), (user.lower(),)
             )
         except:
             logging.exception('Unable to retrieve {}\'s Swaps.'.format(user))
