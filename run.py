@@ -13,8 +13,9 @@ class SwapBot(Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        self.owner = 'FlockOnFire'
-        self.keywords = ['thank', 'thanks']
+        self.owner     = 'FlockOnFire'
+        self.keywords  = ['thank', 'thanks']
+        self.swap_subs = ['scotchswap']
 
         name = '@SwapBot'
         self.comment_triggers = [
@@ -145,7 +146,7 @@ class SwapBot(Bot):
         logging.info('Getting link to {}\'s inventory'.format(str(user)))
         posts = user.get_submitted(limit=None)
         for post in posts:
-            if post.subreddit.display_name.lower() == 'whiskyinventory':
+            if post.subreddit.display_name.lower() in self.swap_subs:
                 return post.permalink
         return None
 
@@ -154,6 +155,8 @@ class SwapBot(Bot):
         posts = user.get_submitted(limit=None, sort = 'new')
         for post in posts:
             post = Post(post)
+            if post.subreddit.display_name.lower() != 'scotchswap':
+                break
             if Swap.find(post.id, self.db):
                 break
             if any(word in self.keywords for word in post.title.lower().split()):

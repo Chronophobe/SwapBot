@@ -10,10 +10,12 @@ class Post():
         self.date     = date.fromtimestamp(post.created_utc).strftime('%Y%m%d')
         
         if isinstance(post, praw.objects.Comment):
-            self.text  = post.body
-            self.reply = post.reply
-            self.title = post.submission.title
+            self.text      = post.body
+            self.reply     = post.reply
+            self.title     = post.submission.title
+            self.subreddit = post.submission.subreddit)
         elif isinstance(post, praw.objects.Submission):
-            self.text  = post.selftext
-            self.reply = post.add_comment
-            self.title = post.title
+            self.text      = post.selftext
+            self.reply     = post.add_comment
+            self.title     = post.title
+            self.subreddit = post.subreddit
