@@ -155,7 +155,8 @@ class SwapBot(Bot):
         posts = user.get_submitted(limit=None, sort = 'new')
         for post in posts:
             post = Post(post)
-            if post.subreddit.display_name.lower() != 'scotchswap':
+            print( post.subreddit.display_name.lower())
+            if post.subreddit.display_name.lower() not in self.swap_subs:
                 break
             if Swap.find(post.id, self.db):
                 break
