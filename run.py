@@ -113,7 +113,7 @@ class SwapBot(Bot):
                 if i > 9:
                     break
                 msg += '* [{}]({})'.format(title, url)
-                i++
+                i += 1
             self.build_reply(msg)
         else:
             self.build_reply('{}\'s has no completed swaps yet.'.format(post.author))
