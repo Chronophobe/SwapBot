@@ -155,9 +155,8 @@ class SwapBot(Bot):
         posts = user.get_submitted(limit=None, sort = 'new')
         for post in posts:
             post = Post(post)
-            print( post.subreddit.display_name.lower())
             if post.subreddit.display_name.lower() not in self.swap_subs:
-                break
+                continue
             if Swap.find(post.id, self.db):
                 break
             if any(word in self.keywords for word in post.title.lower().split()):
