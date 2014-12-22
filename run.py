@@ -157,10 +157,10 @@ class SwapBot(Bot):
             if any(word in self.keywords for word in post.title.lower().split()):
                 Swap.add(
                     submission_id = post.id,
-                    title = bytes(post.title, 'utf-8')
-                    user = str(post.author).lower()
+                    title = bytes(post.title, 'utf-8'),
+                    user = str(post.author).lower(),
                     url = post.url,
-                    date = post.date
+                    date = post.date,
                     db = self.db
                 )    
                 logging.debug('Added Swap ({}) to database'.format(post.id))        
