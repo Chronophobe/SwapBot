@@ -115,7 +115,7 @@ class SwapBot(Bot):
             for title, url in swaps:
                 if i > 9:
                     break
-                msg += '* [{}]({})'.format(title, url)
+                msg += '* [{}]({})\n'.format(title.decode('utf-8'), url)
                 i += 1
             self.build_reply(msg)
         else:
