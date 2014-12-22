@@ -7,6 +7,7 @@ from datetime import datetime
 import re
 import sqlite3
 import logging 
+import praw
 
 class SwapBot(Bot):
     def __init__(self, *args, **kwargs):
@@ -156,7 +157,8 @@ class SwapBot(Bot):
                 break
             if any(word in self.keywords for word in post.title.lower().split()):
                 Swap.add(
-                    submission_id = post.id,
+                    subm
+ission_id = post.id,
                     title = bytes(post.title, 'utf-8'),
                     user = str(post.author).lower(),
                     url = post.url,
