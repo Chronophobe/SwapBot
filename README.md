@@ -18,6 +18,7 @@ Finds your inventory in /r/WhiskyInventory and links it for you.
     @SwapBot trades
 
 #### Add Swap to the Bot's Database
+    @SwapBot archive
     @SwapBot add
     @SwapBot swap complete
 

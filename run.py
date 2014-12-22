@@ -14,11 +14,12 @@ class SwapBot(Bot):
         super().__init__(*args, **kwargs)
         
         self.owner = 'FlockOnFire'
+        self.keywords = ['thank', 'thanks']
 
         name = '@SwapBot'
         self.comment_triggers = [
            #add
-           (re.compile(r'{name} (add|swap complete)'.format(name=name), re.I),
+           (re.compile(r'{name} (archive|add|swap complete)'.format(name=name), re.I),
             self.add_swap),
            #inventory
            (re.compile(r'{name} inv'.format(name=name), re.I),
@@ -29,7 +30,7 @@ class SwapBot(Bot):
         ]
         self.submission_triggers =  [
             #add
-            (re.compile(r'{name} (add|swap complete)'.format(name=name), re.I),
+            (re.compile(r'{name} (archive|add|swap complete)'.format(name=name), re.I),
              self.add_swap),
             #inventory
             (re.compile(r'{name} inv'.format(name=name), re.I),
