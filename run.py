@@ -79,7 +79,7 @@ class SwapBot(Bot):
     def check_messages(self):
         pass
 
-    # sent the owner a message each week with some statistics
+    # sent the owner a message each day with some statistics
     def live_log(self):
         msg  = 'Swaps added: {added}  \n'.format(added=CountDecorator.getCount(self.addSwap))
         msg += 'Swaps listed: {listed}  \n'.format(added=CountDecorator.getCount(self.getSwap))
