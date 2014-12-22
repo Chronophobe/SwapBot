@@ -13,7 +13,7 @@ class Post():
             self.text      = post.body
             self.reply     = post.reply
             self.title     = post.submission.title
-            self.subreddit = post.submission.subreddit)
+            self.subreddit = post.submission.subreddit
         elif isinstance(post, praw.objects.Submission):
             self.text      = post.selftext
             self.reply     = post.add_comment
