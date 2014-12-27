@@ -5,10 +5,10 @@ class CountDecorator():
         self.f = f
         self.count = 0
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args):
         logging.info('Call')
         self.count += 1
-        return self.f(self, *args, **kwargs)
+        return self.f(*args)
 
     def getCount(self):
         return self.count
