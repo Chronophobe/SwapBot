@@ -17,7 +17,7 @@ class SwapBot(Bot):
         self.keywords  = ['thank', 'thanks']
         self.swap_subs = ['scotchswap']
 
-        name = '@SwapBot'
+        name = '@swap_bot'
         self.comment_triggers = [
            #add
            (re.compile(r'{name} (archive|add|swap complete)'.format(name=name), re.I),

@@ -8,18 +8,18 @@ Below is a list of commands to call the bot to action.
 Below are the commands SwapBot looks for in the comments. All commands are case-insensitive.
 
 ### Inventory
-    @SwapBot inventory
-    @SwapBot inv
+    @swap_bot inventory
+    @swap_bot inv
 
 Finds your inventory in /r/WhiskyInventory and links it for you.
 
 ### Recent
-    @SwapBot swaps
-    @SwapBot trades
+    @swap_bot swaps
+    @swap_bot trades
 
 #### Add Swap to the Bot's Database
-    @SwapBot archive
-    @SwapBot add
-    @SwapBot swap complete
+    @swap_bot archive
+    @swap_bot add
+    @swap_bot swap complete
 
 Lists up to 10 of the user's completed trades.
