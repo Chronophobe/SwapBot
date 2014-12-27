@@ -82,7 +82,7 @@ class SwapBot(Bot):
     # sent the owner a message each day with some statistics
     def live_log(self):
         msg  = 'Swaps added: {added}  \n'.format(added=CountDecorator.getCount(self.add_swap))
-        msg += 'Swaps listed: {listed}  \n'.format(added=CountDecorator.getCount(self.get_swap))
+        msg += 'Swaps listed: {listed}  \n'.format(added=CountDecorator.getCount(self.get_swaps))
         msg += 'Inventories listed: {inv}  \n'.format(added=CountDecorator.getCount(self.get_inventory))
         self.reddit.send_message(self.owner, 'SwapBot Log', msg)
         now = datetime.now()
