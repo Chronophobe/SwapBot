@@ -82,8 +82,6 @@ Starting {0}...
             Bot.handle_ratelimit(post.reply, self.reply_text)
             logging.debug(self.reply_text)
             self.reply_text = None
-        else:
-            logging.warning('No reply text.')
 
     def loop(self):
         try:
