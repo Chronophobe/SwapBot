@@ -147,6 +147,7 @@ class SwapBot(Bot):
         posts = user.get_submitted(limit=None)
         for post in posts:
             if post.subreddit.display_name.lower() in ['whiskyinventory']:
+                Inventory.add(post.id, str(user).lower(), post.permalink, self.db)
                 return post.permalink
         return None
 
