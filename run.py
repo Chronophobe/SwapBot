@@ -146,7 +146,7 @@ class SwapBot(Bot):
         logging.info('Getting link to {}\'s inventory'.format(str(user)))
         posts = user.get_submitted(limit=None)
         for post in posts:
-            if post.subreddit.display_name.lower() in self.swap_subs:
+            if post.subreddit.display_name.lower() in ['whiskyinventory']:
                 return post.permalink
         return None
 
