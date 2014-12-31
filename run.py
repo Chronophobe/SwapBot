@@ -43,8 +43,8 @@ class SwapBot(Bot):
         self.message_triggers = {}
 
         now = datetime.now()
-        day = now.replace(day=now.day + 1, hour=0, minute=0, second=0, microsecond=0)
-        self.logTimer = Timer( (day - now).seconds, self.live_log)
+        since_mid = (now.hour * 3600) + (now.minute * 60) + now.second
+        self.logTimer = Timer( 86400 - since_mid, self.live_log)
         self.logTimer.start()
 
     def run(self):
@@ -82,8 +82,8 @@ class SwapBot(Bot):
     # sent the owner a message each day with some statistics
     def live_log(self):
         msg  = 'Swaps added: {added}  \n'.format(added=CountDecorator.getCount(self.add_swap))
-        msg += 'Swaps listed: {listed}  \n'.format(added=CountDecorator.getCount(self.get_swaps))
-        msg += 'Inventories listed: {inv}  \n'.format(added=CountDecorator.getCount(self.get_inventory))
+        msg += 'Swaps listed: {listed}  \n'.format(listed=CountDecorator.getCount(self.get_swaps))
+        msg += 'Inventories listed: {inv}  \n'.format(inv=CountDecorator.getCount(self.get_inventory))
         self.reddit.send_message(self.owner, 'SwapBot Log', msg)
         now = datetime.now()
         day = now.replace(day=now.day + 1, hour=0, minute=0, second=0, microsecond=0)
