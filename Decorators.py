@@ -6,7 +6,6 @@ class CountDecorator():
         self.count = 0
 
     def __call__(self, *args):
-        logging.info('Call')
         self.count += 1
         return self.f(*args)
 

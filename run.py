@@ -92,9 +92,9 @@ class SwapBot(Bot):
 
     @CountDecorator
     def get_inventory(self, post):
+        logging.info('Getting {}\'s inventory.'.format(str(post.author)))
         url = Inventory.get(str(post.author), self.db)
         if not url:
-            logging.debug('get_inv: no inv in db')
             url = self.get_inventory_link(post.author)
         if not url:
             text = "No inventory found. :("
