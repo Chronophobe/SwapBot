@@ -26,7 +26,7 @@ class Bot:
         self.refresh_rate = 10
         self.refresh_cap  = 120
         self.sub_from_subscriptions = False
-        self.subreddits = ['FlockBots']
+        self.subreddits = ['FlockBots', 'ScotchSwap']
         
         init_msg = """
 Starting {0}...
