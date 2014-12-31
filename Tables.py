@@ -91,7 +91,7 @@ class Inventory():
         except:
             logging.exception('Unable to retrieve {}\'s Inventory.'.format(user))
         else:
-            return cursor.fetchone()
+            return cursor.fetchone()[0]
 
     @staticmethod
     def createTable(db):
