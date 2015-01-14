@@ -127,6 +127,7 @@ class SwapBot(Bot):
             sub = post
         else:
             sub = post.original.submission
+        sub = Post(sub)
         if post.author == sub.author:
             Swap.add(
                 submission_id = sub.id,
